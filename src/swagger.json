@@ -1,0 +1,334 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title":"Atlas",
+      "description": "Essa é uma documentação sobre a Atlas API.", 
+      "version": "1.0.0",
+      "contact": {
+        "email": "email@gmail.com"
+      }
+    },
+    "tags": [{
+      "name": "users",
+      "description": "Users management"
+    }],
+    "paths": {
+      "/users": {
+        "post": {
+          "tags": ["users"],
+          "summary": "Create a new user",
+          "description": "Allow you to create a new user",
+          "requestBody": {
+            "description":"This is how you must provide user's data",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "name": "Example",
+                    "email": "example@domain.com"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "User created successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "date"
+                      },
+                      "updated_at": {
+                        "type": "date"
+                      }
+                    },
+                    "example":{
+                      "id": "cdb05873-323b-40c8-b9eb-33b8d5b4057d",
+                      "admin": false,
+                      "name": "Example",
+                      "email": "example@domain.com",
+                      "created_at": "2021-03-18T19:46:19.203Z",
+                      "updated_at": "2021-03-18T19:46:19.203Z"
+                    }
+                  }
+                }
+              }            
+            },
+            "400": {
+              "description": "User can not be created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": "string"
+                    },
+                    "example": {
+                      "error":"This email is already been taken"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        
+        "get": {
+          "tags": ["users"],
+          "summary": "Returns all users",
+          "description": "Only `admin` users can access the list of all users",
+          "parameters": [
+            {
+              "name": "user_id",
+              "in":"header",
+              "schema": {
+                "type":"string",
+                "format":"uuid"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Operation done successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "date"
+                      },
+                      "updated_at": {
+                        "type": "date"
+                      }
+                    },
+                    "example":[
+                      {
+                        "id": "3b1cb5e2-a58f-4cb8-b4a0-9b6e67b6ada9",
+                        "admin": false,
+                        "name": "Example 1",
+                        "email": "example1@example.com.br",
+                        "created_at": "2021-03-21T13:59:50.009Z",
+                        "updated_at": "2021-03-21T14:00:14.708Z"
+                      },
+                      {
+                        "id": "706694f7-a979-4a99-90a9-a3601128280b",
+                        "admin": false,
+                        "name": "Example 2",
+                        "email": "example2@example.com.br",
+                        "created_at": "2021-03-21T14:00:06.401Z",
+                        "updated_at": "2021-03-21T14:00:06.401Z"
+                      }
+                    ]
+                  }
+                }
+              }            
+            },
+            "400": {
+              "description": "You must provide a valid admin user id on header's parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": "string"
+                    },
+                    "example": {
+                      "error": "User admin not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/{user_id}": {
+        "get": {
+          "tags": ["users"],
+          "summary": "Returns user's profile",
+          "description": "Get principal data of a user's profile",
+          "parameters": [
+            {
+              "name": "user_id",
+              "in":"path",
+              "schema": {
+                "type":"string",
+                "format":"uuid"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Operation done successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "date"
+                      },
+                      "updated_at": {
+                        "type": "date"
+                      }
+                    },
+                    "example": {
+                      "id": "3b1cb5e2-a58f-4cb8-b4a0-9b6e67b6ada9",
+                      "admin": false,
+                      "name": "Example 1",
+                      "email": "example1@example.com.br",
+                      "created_at": "2021-03-21T13:59:50.009Z",
+                      "updated_at": "2021-03-21T14:00:14.708Z"
+                    }
+                  }
+                }
+              }            
+            },
+            "400": {
+              "description": "You must provide a valid user id on path's parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": "string"
+                    },
+                    "example": {
+                      "error": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/{user_id}/admin": {
+        "patch": {
+          "tags": ["users"],
+          "summary": "Turn a user into admin",
+          "description": "Turn a user into admin",
+          "parameters": [
+            {
+              "name": "user_id",
+              "in":"path",
+              "schema": {
+                "type":"string",
+                "format":"uuid"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Operation done successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "date"
+                      },
+                      "updated_at": {
+                        "type": "date"
+                      }
+                    },
+                    "example": {
+                      "id": "3b1cb5e2-a58f-4cb8-b4a0-9b6e67b6ada9",
+                      "admin": true,
+                      "name": "Example 1",
+                      "email": "example1@example.com.br",
+                      "created_at": "2021-03-21T13:59:50.009Z",
+                      "updated_at": "2021-03-21T14:00:14.708Z"
+                    }
+                  }
+                }
+              }            
+            },
+            "400": {
+              "description": "You must provide a valid user id on path's parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": "string"
+                    },
+                    "example": {
+                      "error": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
